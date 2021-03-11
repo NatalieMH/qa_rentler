@@ -18,6 +18,6 @@ const driver: WebDriver = new Builder()
       await rentler.navigate();
       await rentler.enteringEmail("natalie.halloran@yahoo.com");
       await rentler.enteringPassword("12345678");
-      expect(rentler.invalidSignin()).toContain("Invalid username or password");
+      expect(await rentler.invalidSignin()).toContain("Invalid username or password");
   });
 
