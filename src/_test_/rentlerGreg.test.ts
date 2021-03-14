@@ -1,4 +1,5 @@
 import {RentlerPage} from "../signInUpPage"
+import {AboutPage} from "../aboutPage"
 import {
     By,
     Builder,
@@ -14,14 +15,15 @@ const driver: WebDriver = new Builder()
   .withCapabilities(Capabilities.chrome())
   .build();
   const rentler = new RentlerPage(driver);
+  const rentlerAbout = new AboutPage(driver);
 
   describe("rentler", () => {
     beforeEach(async () => {
         await rentler.navigate();
       });
-    afterEach(async () => {
-        await rentler.driver.quit();
-    });
+    // afterEach(async () => {
+    //     await rentler.driver.quit();
+    // });
     // test("Cannot sign in with invalid email or password", async () => {
     //     await rentler.signingIn();
     //     await rentler.enteringEmail("natalie.halloran@yahoo.com");
@@ -40,12 +42,16 @@ const driver: WebDriver = new Builder()
       test("Can use search button on the main page", async () => {
 
       });
-      test("Can use hyperlinks to navigate to other endpoints", async() => {
-
+      test("Can use hyperlinks to navigate to the about page", async() => {
+        let aboutUs: By = By.css("a[href='/about']");
+        await rentler.driver.wait(until.elementLocated(aboutUs))
+        await rentler.click(aboutUs);
+        //   await rentler.click(rentler.aboutUs)
+        expect( await driver.findElement(await By.xpath('//*[contains(text(),"Our story")]')).getText()).toEqual("Our story");
       });
-      test("Verify if filters persist", async() => {
-
-      });
+    //   test("Verify if filters persist", async() => {
+    //     await rentler.search(rentler.searchbar,"Salt Lake City, Utah");
+    //   });
   });
 
 

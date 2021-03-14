@@ -14,9 +14,11 @@ export class BasePage {
     signUp: By = By.css('.nav-item-sign-up');
     searchListings: By = By.id('header_listings_menu_toggle');
     rentlerLogo: By = By.css('img[alt = "Rentler logo');
+    searchbar: By = By.id('Location');
+    searchbutton: By = By.css('.hero-search-submit btn btn-lg btn-primary');
     //tenants: By = By.id('header_tenant_menu_toggle');
     //listYourProperty: By = By.id('header_landlord_menu_toggle');
-   // pricing: By = By.id('header_pricing_menu_toggle');
+    // pricing: By = By.id('header_pricing_menu_toggle');
     constructor(driver:WebDriver) {
         this.driver = driver;
     }
@@ -27,8 +29,12 @@ export class BasePage {
           until.elementIsVisible(await this.driver.findElement(this.signIn))
         );
       }
+    async click(elementBy: By) {
+        await this.driver.wait(until.elementLocated(elementBy));
+        return (await this.driver.findElement(elementBy)).click();
+    }
     async searchesListings() {
-        await this.click(this.driver,this.searchListings);
+        await this.click(this.searchListings);
         await this.driver.wait(until.elementLocated(this.searchListings));
     }
     /*async areTenants() {
@@ -44,19 +50,18 @@ export class BasePage {
         await this.driver.wait(until.elementLocated(this.pricing));
     }*/
     async signingIn() {
-        await this.click(this.driver,this.signIn);
+        await this.click(this.signIn);
         //await this.driver.wait(until.elementLocated(this.signIn));
     }
     async signingUp() {
-        await this.click(this.driver,this.signUp);
+        await this.click(this.signUp);
        // await this.driver.wait(until.elementLocated(this.signUp));
     }
     async logo() {
-        await this.click(this.driver,this.rentlerLogo);
+        await this.click(this.rentlerLogo);
         await this.driver.wait(until.elementLocated(this.rentlerLogo));
     }
-    async click(driver, elementBy: By) {
-        await driver.wait(until.elementLocated(elementBy));
-        return (await driver.findElement(elementBy)).click();
+    async search(searchbar: By, text: string) {
+        await this.driver.findElement(searchbar).sendKeys(`${text}\n`);
     }
 }
