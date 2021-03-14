@@ -40,14 +40,16 @@ const driver: WebDriver = new Builder()
     //       await rentler.agreeToTermsSignUp();
     //   });
       test("Can use search button on the main page", async () => {
-
+        await rentler.driver.findElement(rentler.searchBar).sendKeys("Salt Lake City, Utah");
+        await rentler.click(rentler.searchButton);
+        expect(await driver.findElement(await By.xpath("//*[contains(text(), 'Properties For Rent')]")).getText()).toEqual("Salt Lake City, UT Properties For Rent");
       });
       test("Can use hyperlinks to navigate to the about page", async() => {
         let aboutUs: By = By.css("a[href='/about']");
         await rentler.driver.wait(until.elementLocated(aboutUs))
         await rentler.click(aboutUs);
         //   await rentler.click(rentler.aboutUs)
-        expect( await driver.findElement(await By.xpath('//*[contains(text(),"Our story")]')).getText()).toEqual("Our story");
+        expect(await driver.findElement(await By.xpath('//*[contains(text(),"Our story")]')).getText()).toEqual("Our story");
       });
     //   test("Verify if filters persist", async() => {
     //     await rentler.search(rentler.searchbar,"Salt Lake City, Utah");
