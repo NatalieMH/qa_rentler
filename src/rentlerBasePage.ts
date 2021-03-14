@@ -15,7 +15,7 @@ export class BasePage {
     searchListings: By = By.id('header_listings_menu_toggle');
     rentlerLogo: By = By.css('img[alt = "Rentler logo');
     searchBar: By = By.id('Location');
-    searchButton: By = By.css('.hero-search-submit btn btn-lg btn-primary');
+    searchButton: By = By.css('button[type="submit"]');
     //tenants: By = By.id('header_tenant_menu_toggle');
     //listYourProperty: By = By.id('header_landlord_menu_toggle');
     // pricing: By = By.id('header_pricing_menu_toggle');
