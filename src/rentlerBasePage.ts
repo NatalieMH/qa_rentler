@@ -28,7 +28,7 @@ export class BasePage {
         );
       }
     async searchesListings() {
-        await click(this.driver,this.searchListings);
+        await this.click(this.driver,this.searchListings);
         await this.driver.wait(until.elementLocated(this.searchListings));
     }
     /*async areTenants() {
@@ -44,19 +44,19 @@ export class BasePage {
         await this.driver.wait(until.elementLocated(this.pricing));
     }*/
     async signingIn() {
-        await click(this.driver,this.signIn);
+        await this.click(this.driver,this.signIn);
         //await this.driver.wait(until.elementLocated(this.signIn));
     }
     async signingUp() {
-        await click(this.driver,this.signUp);
+        await this.click(this.driver,this.signUp);
        // await this.driver.wait(until.elementLocated(this.signUp));
     }
     async logo() {
-        await click(this.driver,this.rentlerLogo);
+        await this.click(this.driver,this.rentlerLogo);
         await this.driver.wait(until.elementLocated(this.rentlerLogo));
     }
+    async click(driver, elementBy: By) {
+        await driver.wait(until.elementLocated(elementBy));
+        return (await driver.findElement(elementBy)).click();
+    }
 }
-const click = async function (driver, elementBy: By) {
-    await driver.wait(until.elementLocated(elementBy));
-    return (await driver.findElement(elementBy)).click();
-  };
