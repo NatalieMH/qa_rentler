@@ -14,8 +14,8 @@ export class BasePage {
     signUp: By = By.css('.nav-item-sign-up');
     searchListings: By = By.id('header_listings_menu_toggle');
     rentlerLogo: By = By.css('img[alt = "Rentler logo');
-    searchbar: By = By.id('Location');
-    searchbutton: By = By.css('.hero-search-submit btn btn-lg btn-primary');
+    searchBar: By = By.id('Location');
+    searchButton: By = By.css('.hero-search-submit btn btn-lg btn-primary');
     //tenants: By = By.id('header_tenant_menu_toggle');
     //listYourProperty: By = By.id('header_landlord_menu_toggle');
     // pricing: By = By.id('header_pricing_menu_toggle');
@@ -61,7 +61,7 @@ export class BasePage {
         await this.click(this.rentlerLogo);
         await this.driver.wait(until.elementLocated(this.rentlerLogo));
     }
-    async search(searchbar: By, text: string) {
-        await this.driver.findElement(searchbar).sendKeys(`${text}\n`);
+    async search(searchBar: By, text: string) {
+        await this.driver.findElement(searchBar).sendKeys(`${text}\n`);
     }
 }
