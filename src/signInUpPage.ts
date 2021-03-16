@@ -54,7 +54,7 @@ export class RentlerPage extends BasePage {
     async retypingPassword(password2: string) {
         await click(this.driver,this.retypePassword);
         await this.driver.switchTo().activeElement().sendKeys(`${password2}\n`);
-        await this.driver.wait(until.elementLocated(this.retypePassword)); 
+        await this.driver.wait(until.elementLocated(this.retypePassword));
     }
     async enteringName(first: string, last: string) {
         await click(this.driver,this.firstName);
