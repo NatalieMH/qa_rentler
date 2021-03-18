@@ -61,18 +61,18 @@ export class RentlerPage extends BasePage {
     }
     async invalidSignin() {
         await this.driver.wait(until.elementLocated(this.invalidLogin));
-        let errorMessage = await this.driver.findElement(this.invalidLogin).getText()
+        let errorMessage = await this.driver.findElement(this.invalidLogin).getText() //Finds the text for the message "Invalid username or password"
         console.log(errorMessage);
         return errorMessage;
     }
     async passwordShort() {
         await click(this.driver,this.passwordField);
-        await this.driver.wait(until.elementLocated(this.passwordLength));
+        await this.driver.wait(until.elementLocated(this.passwordLength)); //This invalid password message is not actually text within the HTML, the data element for the password field changes instead
         return this.passwordLength;
     }
     async landlordOrTenant() {
         await click(this.driver,this.selectType);
-        await this.driver.wait(until.elementLocated(this.landlord));
+        await this.driver.wait(until.elementLocated(this.landlord)); //During sign-up a user must choose to either sign-up as a landlord or tenant
         await click(this.driver,this.landlord);
     }
     async agreeToTermsSignUp() {
@@ -82,24 +82,24 @@ export class RentlerPage extends BasePage {
     async useAsTenant() {
         await this.driver.wait(until.elementLocated(this.tenantOrLandlord));
         await this.driver.findElement(this.tenantOrLandlord);
-        await click(this.driver,this.tenantOrLandlord);
-        await this.driver.wait(until.elementLocated(this.welcome));
+        await click(this.driver,this.tenantOrLandlord); // Choose "Use As Tenant" when signing-in
+        await this.driver.wait(until.elementLocated(this.welcome));// wait to move on until the welcome page is located
     }
     async welcomePage() {
         await this.driver.wait(until.elementLocated(this.welcome));
-        let welcomeScreen = await (await (this.driver.findElement(this.welcome))).getText();
+        let welcomeScreen = await (await (this.driver.findElement(this.welcome))).getText(); //This identifies the text on the welcome screen to verify we are on the right page.
         return welcomeScreen;
     }
     async favoriteListing() {
-        await click(this.driver,this.sListSigned);
+        await click(this.driver,this.sListSigned); //This is the Search Listings from the Signed In page, not the main page
         await this.driver.wait(until.elementLocated(this.favorites));
         await click(this.driver,this.favorites);
-        await this.driver.wait(until.elementLocated(By.css('div[data-liked = "true"]')));
+        await this.driver.wait(until.elementLocated(By.css('div[data-liked = "true"]')));//This waits until the favorite button is actually clicked and filled out.
     }
     async showMyPlaces() {
-        await click(this.driver,this.myPlaces);
-        await this.driver.wait(until.elementLocated(this.resultList));
-        let results = await (await (this.driver.findElement(this.resultList))).getText();
+        await click(this.driver,this.myPlaces); //Clicks the My Places filter button
+        await this.driver.wait(until.elementLocated(this.resultList)); //waits until the element that includes the # of results is located
+        let results = await (await (this.driver.findElement(this.resultList))).getText(); //gets the text of the # of results (No Results of nothing favorited)
         return results;
     }
 }
