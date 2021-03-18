@@ -50,7 +50,7 @@ const driver: WebDriver = new Builder()
         await rentler.driver.findElement(By.xpath("//input[@class='mapboxgl-ctrl-geocoder--input']")).clear();
         await rentler.driver.findElement(By.xpath("//input[@class='mapboxgl-ctrl-geocoder--input']")).sendKeys("West Valley City, Utah");
         // filters should remain checked
-        await expect(await rentler.driver.findElement(By.xpath("//span[@data-bind='formatMoreFilters()']")).getText()).toEqual("More Filters(5)");
+        expect(await rentler.driver.findElement(By.xpath("//span[@data-bind='formatMoreFilters()']")).getText()).toEqual("More Filters(5)");
       });
       test("Verify if filters persist after navigating to home screen and then navigating to properties to rent page", async() => {
         await rentler.search(rentler.searchBar,"Salt Lake City, Utah");
@@ -73,7 +73,7 @@ const driver: WebDriver = new Builder()
         /* are the filters still checkmarked?
         I would have assumed that they would be, but Rentler does not keep them checkmarked. I had to set expect to 0 to make this test pass.
         */
-        await expect(await rentler.driver.findElement(By.xpath("//span[@data-bind='formatMoreFilters()']")).getText()).toEqual("More Filters");
+        expect(await rentler.driver.findElement(By.xpath("//span[@data-bind='formatMoreFilters()']")).getText()).toEqual("More Filters");
       });
   });
 
