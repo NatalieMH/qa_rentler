@@ -8,7 +8,6 @@ import {
     Capabilities,
     Browser
 } from "selenium-webdriver";
-import { isPropertyAccessChain } from "typescript";
 
  jest.setTimeout(1000*60*5)
 
