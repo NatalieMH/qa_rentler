@@ -68,6 +68,7 @@ focus more on the presentation a more
 Testing Outcome:
 
 Couldn't automatically sign-up, so had to do that manually
+
 Bugs:
     There were hidden elements for the map that blocked automation for elements on the same page.
     The Search Bar on the main page and Search Bar under Search Listings provide different options in dropdown menu outside of US.
