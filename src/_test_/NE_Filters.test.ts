@@ -8,7 +8,6 @@ import {
     Capabilities,
     Browser
 } from "selenium-webdriver";
-
  jest.setTimeout(1000*60*5)
 
 const driver: WebDriver = new Builder()
@@ -27,7 +26,7 @@ export class FiltersPage extends BasePage {
     driver: WebDriver;
     url: string = 'https://rentler.com';
    
-    
+    //Begin Selector definitions
     //General Search Filters Options   
     searchListingsButton: By = By.id("header_listings_menu_toggle");
     moreFiltersButton: By = By.className("more-filters-button");
@@ -69,18 +68,20 @@ export class FiltersPage extends BasePage {
     yesSmokingStatus: By = By.xpath('//*[contains(text(),"Smoking • Allowed")]');
     noSmokingStatus: By = By.xpath('//*[contains(text(),"Smoking • Not Allowed")]');
 
+
+    //Begin Methods
     constructor(driver:WebDriver) {
         super(driver);
-    }
+   
+}
+    //General Search Filter Methods
     async navigate() {
         await this.driver.get(this.url);
         await this.driver.wait(until.elementLocated(this.signIn));
         await this.driver.wait(
-          until.elementIsVisible(await this.driver.findElement(this.signIn))
-        );
+      until.elementIsVisible(await this.driver.findElement(this.signIn))
+    );
     }
-
-    //General Search Filters
     async clickSearchListings() {
         await this.driver.wait(until.elementLocated(this.searchListingsButton));
         await click(this.driver,this.searchListingsButton);       
@@ -99,22 +100,19 @@ export class FiltersPage extends BasePage {
     }
   
     
-    //Pet Allowance
+    //Pet Allowance Methods
     async smallDogsAllowed () {
         await this.driver.wait(until.elementLocated(this.smallDogsCheckBox));
         await click(this.driver,this.smallDogsCheckBox);
     }
-
     async largeDogsAllowed () {
         await this.driver.wait(until.elementLocated(this.largeDogsCheckBox));
         await click(this.driver,this.largeDogsCheckBox);
     }
-
     async catsAllowed () {
         await this.driver.wait(until.elementLocated(this.catsCheckBox));
         await click(this.driver,this.catsCheckBox);
     }
-
     async numberOfResults () {
         await this.driver.wait(until.elementLocated(this.numberSearchResults));
         let numberResultsString:String = await (await driver.findElement(this.numberSearchResults)).getText()
@@ -126,7 +124,6 @@ export class FiltersPage extends BasePage {
         return numberResults;
         //await click(this.driver,this.numberSearchResults);
     }
-
     async clickRandomListing () {
         await this.driver.wait(until.elementLocated(this.clickListing));
         let arrayOfListings = await driver.findElements(this.clickListing);
@@ -134,35 +131,30 @@ export class FiltersPage extends BasePage {
         //console.log('selectedListing',selectedListing)
         await selectedListing.click();
     }
-
     async clickBackButton () {
         await this.driver.wait(until.elementLocated(this.backToSearch));
         await click(this.driver,this.backToSearch);
     }
 
-
-    //Smoking
+    //Smoking Methods
     async searchSmokingYes () {
         await this.driver.wait(until.elementLocated(this.yesSmokingCheckBox));
         await click(this.driver,this.yesSmokingCheckBox)
     }
 
-    //Property type
+    //Property type Methods
     async searchPropertyType () {
         await this.driver.wait(until.elementLocated(this.propertyFilterButton));
         await click(this.driver,this.propertyFilterButton)
-    
     }
     async searchForApartments () {
         await this.driver.wait(until.elementLocated(this.aptListingCheckBox));
         await click (this.driver,this.aptListingCheckBox)
     }
-
     async searchForTownHouse () {
         await this.driver.wait(until.elementLocated(this.townhouseListingCheckBox));
         await click (this.driver,this.townhouseListingCheckBox)
     }
-
     async searchForHouse () {
         await this.driver.wait(until.elementLocated(this.houseStatus));
         await click (this.driver,this.houseStatus)
@@ -174,61 +166,61 @@ export class FiltersPage extends BasePage {
 const filterPage = new FiltersPage(driver);
 //This test will check that pet filters work.
 //1. Navigate to Rentler.com
-test ("Search Listings by Small Dogs: Lower number of listings after pet filter & random listing pet filter check for small dogs", async () => {
+test ("Search Listings by Small Dogs: Lower number of listings after pet filter & random listing with small dog filter on to check for small dogs", async () => {
     await filterPage.navigate();
     //2. Click Search Listings on main page.
     await filterPage.clickSearchListings();
     //3. Click More Listings.
-    await driver.sleep(1500);
+    await driver.sleep(2000);
     //4. Log the number of results before filtering
     let originalResultsCount:number = await filterPage.numberOfResults();
     await filterPage.searchMoreFilters();
     //5. Search for Small Dogs.
     await filterPage.smallDogsAllowed();
     await filterPage.showResults();
-    await driver.sleep(1500);
-    //6. Log th enumber of results after filtering
+    await driver.sleep(2000);
+    //6. Log the number of results after filtering
     let newResultsCount:number = await filterPage.numberOfResults();
     //7. Expect the number of results that are filtered to be less than the original number
     expect(newResultsCount).toBeLessThan(originalResultsCount);
-    //8. Now test that a random listing has been filtered accurately by pet allowance (yes or no)
+    //8. Now test that a random listing has been filtered accurately by small dog allowance (yes or no)
     for (let counter=0;counter<2;counter=counter+1) {
         await filterPage.clickRandomListing();
-        await driver.sleep(1500);
+        await driver.sleep(2000);
         let smallDogsStatusElements = (await driver.findElements(filterPage.smallDogsStatus));
         expect(smallDogsStatusElements.length).toBeGreaterThan(0);
         // Go back to results
         await filterPage.clickBackButton();
-        await driver.sleep(1500);
+        await driver.sleep(2000);
     }   
 });
 
-test ("Search Listings by Cats: Lower number of listings after pet filter & random listing pet filter check for cats", async () => {
+test ("Search Listings by Cats: Lower number of listings after pet filter & random listing cat filter to check for cats", async () => {
     await filterPage.navigate();
     //2. Click Search Listings on main page.
     await filterPage.clickSearchListings();
     //3. Click More Listings.
-    await driver.sleep(1500);
+    await driver.sleep(2000);
     //4. Log the number of results before filtering
     let originalResultsCount:number = await filterPage.numberOfResults();
     await filterPage.searchMoreFilters();
     //5. Search for Cats.
     await filterPage.catsAllowed();
     await filterPage.showResults();
-    await driver.sleep(1500);
-    //6. Log th enumber of results after filtering
+    await driver.sleep(2000);
+    //6. Log the number of results after filtering
     let newResultsCount:number = await filterPage.numberOfResults();
     //7. Expect the number of results that are filtered to be less than the original number
     expect(newResultsCount).toBeLessThan(originalResultsCount);
-    //8. Now test that a random listing has been filtered accurately by pet allowance (yes or no)
+    //8. Now test that a random listing has been filtered accurately by cat allowance (yes or no)
     for (let counter=0;counter<2;counter=counter+1) {
         await filterPage.clickRandomListing();
-        await driver.sleep(1500);
+        await driver.sleep(2000);
         let catsStatusElements = (await driver.findElements(filterPage.catsStatus));
         expect(catsStatusElements.length).toBeGreaterThan(0);
         // Go back to results
         await filterPage.clickBackButton();
-        await driver.sleep(1500);
+        await driver.sleep(2000);
     }   
 });
 
@@ -237,27 +229,27 @@ test ("Apartment: Search Listings by Property Type", async () => {
     //2. Click Search Listings on main page.
     await filterPage.clickSearchListings();
     //3. Click More Listings.
-    await driver.sleep(1500);
+    await driver.sleep(2000);
     //4. Log the number of results before filtering
     let originalResultsCount:number = await filterPage.numberOfResults();
     await filterPage.searchPropertyType();
     //5. Search for Apartments.
     await filterPage.searchForApartments();
     await filterPage.showPropertyResults();
-    await driver.sleep(1500);
-    //6. Log th enumber of results after filtering
+    await driver.sleep(2000);
+    //6. Log the number of results after filtering
     let newResultsCount:number = await filterPage.numberOfResults();
     //7. Expect the number of results that are filtered to be less than the original number
     expect(newResultsCount).toBeLessThan(originalResultsCount);
     //8. Now test that a random listing has been filtered accurately by apartment (yes or no)
     for (let counter=0;counter<2;counter=counter+1) {
         await filterPage.clickRandomListing();
-        await driver.sleep(1500);
+        await driver.sleep(2000);
         let apartmentElements = (await driver.findElements(filterPage.apartmentStatus));
         expect(apartmentElements.length).toBeGreaterThan(0);
         // Go back to results
         await filterPage.clickBackButton();
-        await driver.sleep(1500);
+        await driver.sleep(2000);
     }   
 });
 
@@ -266,27 +258,27 @@ test ("Townhouse: Search Listings by Property Type", async () => {
     //2. Click Search Listings on main page.
     await filterPage.clickSearchListings();
     //3. Click More Listings.
-    await driver.sleep(1500);
+    await driver.sleep(2000);
     //4. Log the number of results before filtering
     let originalResultsCount:number = await filterPage.numberOfResults();
     await filterPage.searchPropertyType();
     //5. Search for Apartments.
     await filterPage.searchForTownHouse();
     await filterPage.showPropertyResults();
-    await driver.sleep(1500);
-    //6. Log th enumber of results after filtering
+    await driver.sleep(2000);
+    //6. Log the number of results after filtering
     let newResultsCount:number = await filterPage.numberOfResults();
     //7. Expect the number of results that are filtered to be less than the original number
     expect(newResultsCount).toBeLessThan(originalResultsCount);
     //8. Now test that a random listing has been filtered accurately by townhouse (yes or no)
     for (let counter=0;counter<2;counter=counter+1) {
         await filterPage.clickRandomListing();
-        await driver.sleep(1500);
+        await driver.sleep(2000);
         let townhouseElements = (await driver.findElements(filterPage.townHomeStatus));
         expect(townhouseElements.length).toBeGreaterThan(0);
         // Go back to results
         await filterPage.clickBackButton();
-        await driver.sleep(1500);
+        await driver.sleep(2000);
     } 
 });  
 test ("House: Search Listings by Property Type", async () => {
@@ -294,27 +286,27 @@ test ("House: Search Listings by Property Type", async () => {
     //2. Click Search Listings on main page.
     await filterPage.clickSearchListings();
     //3. Click More Listings.
-    await driver.sleep(1500);
+    await driver.sleep(4000);
     //4. Log the number of results before filtering
     let originalResultsCount:number = await filterPage.numberOfResults();
     await filterPage.searchPropertyType();
     //5. Search for Apartments.
     await filterPage.searchForHouse();
     await filterPage.showPropertyResults();
-    await driver.sleep(1500);
-    //6. Log th enumber of results after filtering
+    await driver.sleep(4000);
+    //6. Log the number of results after filtering
     let newResultsCount:number = await filterPage.numberOfResults();
     //7. Expect the number of results that are filtered to be less than the original number
     expect(newResultsCount).toBeLessThan(originalResultsCount);
     //8. Now test that a random listing has been filtered accurately by house (yes or no)
     for (let counter=0;counter<2;counter=counter+1) {
         await filterPage.clickRandomListing();
-        await driver.sleep(1500);
+        await driver.sleep(4000);
         let houseElements = (await driver.findElements(filterPage.houseStatus));
         expect(houseElements.length).toBeGreaterThan(0);
         // Go back to results
         await filterPage.clickBackButton();
-        await driver.sleep(1500);
+        await driver.sleep(4000);
     } 
 });  
 
@@ -323,14 +315,14 @@ test ("Search Listings by Smoking: Yes Smoking", async () => {
     //2. Click Search Listings on main page.
     await filterPage.clickSearchListings();
     //3. Click More Listings.
-    await driver.sleep(1500);
+    await driver.sleep(5000);
     //4. Log the number of results before filtering
     let originalResultsCount:number = await filterPage.numberOfResults();
     await filterPage.searchMoreFilters();
     //5. Search for Cats.
     await filterPage.searchSmokingYes();
     await filterPage.showResults();
-    await driver.sleep(1500);
+    await driver.sleep(5000);
     //6. Log the number of results after filtering
     let newResultsCount:number = await filterPage.numberOfResults();
     //7. Expect the number of results that are filtered to be less than the original number
@@ -341,11 +333,11 @@ test ("Search Listings by Smoking: Yes Smoking", async () => {
     //8. Now test that a random listing has been filtered accurately by smoking allowance (yes or no)
     for (let counter=0;counter<2;counter=counter+1) {
         await filterPage.clickRandomListing();
-        await driver.sleep(1500);
+        await driver.sleep(5000);
         let smokingStatusElements = (await driver.findElements(filterPage.yesSmokingStatus));
         expect(smokingStatusElements.length).toBeGreaterThan(0);
         // Go back to results
         await filterPage.clickBackButton();
-        await driver.sleep(1500);
+        await driver.sleep(5000);
     }   
 });
